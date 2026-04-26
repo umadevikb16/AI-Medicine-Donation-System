@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Profile</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: linear-gradient(135deg, #eef4ff, #f8fbff);
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #2c7be5, #4facfe);
+            color: white;
+            padding: 16px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            margin-left: 25px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: auto;
+            padding: 60px 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            margin-top: 0;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 6px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 15px;
+        }
+
+        .actions {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 15px;
+            color: white;
+            text-decoration: none;
+        }
+
+        .save-btn {
+            background: linear-gradient(135deg, #28a745, #6ddf95);
+        }
+
+        .cancel-btn {
+            background: linear-gradient(135deg, #dc3545, #ff6b6b);
+        }
+
+        footer {
+            margin-top: 80px;
+            background: #1f2933;
+            color: #ccc;
+            text-align: center;
+            padding: 22px;
+            font-size: 14px;
+        }
+
+        .avatar {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid #2c7be5;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    margin: auto;
+    transition: 0.3s;
+}
+
+.avatar:hover {
+    transform: scale(1.05);
+}
+
+
+.avatar label {
+    display: inline-block;
+    margin-top: 10px;
+    color: #2c7be5;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.avatar input {
+    display: none;
+}
+
+    </style>
+</head>
+
+<body>
+
+<div class="navbar">
+    <h2>💊 Medicine Donation System</h2>
+    <div class="nav-links">
+        <a href="/donor/home">Home</a>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+
+<div class="container">
+
+    <div class="card">
+        <h2>✏️ Edit Profile</h2>
+
+        <form method="POST" enctype="multipart/form-data">
+
+    <!-- AVATAR UPLOAD -->
+<div style="text-align:center;margin-bottom:25px;">
+
+    <label for="profile_photo" style="cursor:pointer;">
+        {% if donor.profile_photo %}
+            <img id="avatarPreview"
+                 src="/{{ donor.profile_photo }}"
+                 class="avatar">
+        {% else %}
+            <div id="avatarPreview"
+                 class="avatar"
+                 style="display:flex;align-items:center;justify-content:center;
+                        background:#2c7be5;color:white;font-size:48px;">
+                {{ donor.name[0]|upper }}
+            </div>
+        {% endif %}
+    </label>
+
+    <input type="file"
+           id="profile_photo"
+           name="profile_photo"
+           accept="image/*"
+           hidden
+           onchange="previewAvatar(event)">
+    
+    <p style="color:#666;font-size:14px;">Click avatar to change photo</p>
+</div>
+
+{% if donor.profile_photo %}
+<button type="submit"
+        name="remove_photo"
+        value="1"
+        style="
+        background:#dc3545;color:white;
+        border:none;padding:8px 16px;
+        border-radius:20px;cursor:pointer;">
+🗑 Remove Photo
+</button>
+{% endif %}
+
+
+    <label>Name</label>
+    <input type="text" name="name" value="{{ donor.name }}" required>
+
+    <label>Phone</label>
+    <input type="text" name="phone" value="{{ donor.phone }}" required>
+
+    <label>Location</label>
+    <input type="text" name="location" value="{{ donor.location }}" required>
+
+    <div class="actions">
+        <button type="submit" class="btn save-btn">💾 Save Changes</button>
+        <a href="/donor/profile" class="btn cancel-btn">❌ Cancel</a>
+    </div>
+</form>
+
+    </div>
+
+</div>
+
+<footer>
+    <p>© 2025 AI Enabled Medicine Donation System</p>
+</footer>
+
+<script>
+function previewAvatar(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const avatar = document.getElementById("avatarPreview");
+
+        // If it was initials div, convert to img
+        if (avatar.tagName !== "IMG") {
+            const img = document.createElement("img");
+            img.id = "avatarPreview";
+            img.className = "avatar";
+            img.src = e.target.result;
+            avatar.replaceWith(img);
+        } else {
+            avatar.src = e.target.result;
+        }
+    };
+    reader.readAsDataURL(file);
+}
+</script>
+
+</body>
+</html>

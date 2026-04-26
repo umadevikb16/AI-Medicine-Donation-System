@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Donations | Admin</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            padding: 30px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            background: white;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background: #2c7be5;
+            color: white;
+        }
+
+        .btn {
+            padding: 6px 10px;
+            background: #2c7be5;
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>📋 All Donations (Admin)</h2>
+
+<table>
+    <tr>
+        <th>Medicine Name</th>
+        <th>Donor Name</th>
+        <th>Donation ID</th>
+        <th>Donated Quantity</th>
+        <th>Remaining Quantity</th>
+        <th>Expiry Date</th>
+        <th>Impact Score</th>
+        <th>Status</th>
+    </tr>
+
+    {% for d in donations %}
+    <tr>
+        <td>{{ d.medicine_name }}</td>
+        <td>{{ d.donor_name or "—"}}</td>
+        <td>{{ d._id }}</td>
+        <td>{{ d.donated_quantity or "—" }}</td>
+        <td>{{ d.quantity }}</td>
+        <td>{{ d.expiry_date or "N/A" }}</td>
+        <td>{{ d.impact_score }}</td>
+      
+        <td>
+            {% if d.quantity == 0 %}
+                <span style="color:green;font-weight:bold;">Delivered</span>
+            {% else %}
+                <span style="color:orange;font-weight:bold;">Stored</span>
+            {% endif %}
+        </td>
+
+    </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>

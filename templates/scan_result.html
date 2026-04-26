@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Donation Details</title>
+    <style>
+        body {
+            font-family: Arial;
+            background-color: #f4f6f8;
+            padding: 40px;
+        }
+        .box {
+            background: white;
+            padding: 25px;
+            max-width: 500px;
+            margin: auto;
+            border-radius: 8px;
+            box-shadow: 0 0 10px #ccc;
+        }
+        h2 {
+            color: green;
+        }
+        .high { color: red; font-weight: bold; }
+        .medium { color: orange; font-weight: bold; }
+        .low { color: green; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    {% if donation %}
+        <h2>✅ Donation Details</h2>
+        <p><b>Donation ID:</b> {{ donation._id }}</p>
+        <p><b>Medicine Name:</b> {{ donation.medicine_name }}</p>
+        <p><b>Expiry Date:</b> {{ donation.expiry_date or "N/A" }}</p>
+        <p><b>Quantity:</b> {{ donation.quantity }}</p>
+        <p><b>Status:</b> {{ donation.status }}</p>
+        <p><b>Impact Score:</b> {{ donation.impact_score }}</p>
+        <p><b>Priority:</b>
+            <span class="{{ donation.priority.lower() }}">
+                {{ donation.priority }}
+            </span>
+        </p>
+            {% if donation.ngo_email %}
+        <p><b>Assigned NGO:</b> {{ donation.ngo_email }}</p>
+            {% endif %}
+
+        <p><b>Donated On:</b> {{ donation.created_at.strftime("%d-%m-%Y") }}</p>
+    {% else %}
+        <h2>❌ Donation Not Found</h2>
+        <p>Invalid Donation ID: {{ donation_id }}</p>
+    {% endif %}
+
+    <br>
+    <a href="/scan">🔁 Scan Another QR</a>
+</div>
+
+</body>
+</html>

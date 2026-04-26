@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Donor Home</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: linear-gradient(135deg, #e0f2fe, #ecfdf5);
+        }
+
+
+        /* NAVBAR */
+        .navbar {
+            background: #2c7be5;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            margin-left: 20px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* HERO IMAGE */
+        .hero {
+            height: 350px;
+            background-image: url("https://www.shutterstock.com/image-photo/hands-holding-healthcare-kit-medication-260nw-2540069175.jpg");
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text {
+            position: absolute;
+            bottom: 40px;
+            left: 40px;
+            color: white;
+            z-index: 1;
+        }
+
+        .hero-text h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .hero-text p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        /* CARDS */
+        .cards-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            padding: 50px 20px;
+            flex-wrap: wrap;   /* responsive */
+        }
+
+
+        .card {
+            width: 320px;
+            padding: 35px 30px;
+            border-radius: 22px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 18px 40px rgba(0,0,0,0.25);
+        }
+
+        .card h3 {
+            font-size: 24px;
+            margin-bottom: 12px;
+            color: #333;
+        }
+
+        .card p {
+            font-size: 16px;
+            color: #555;
+        }
+
+        .card a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 14px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            color: white;
+        }
+
+        .donate-btn {
+            background: linear-gradient(135deg, #2c7be5, #4facfe);
+        }
+
+        .dashboard-btn {
+            background: linear-gradient(135deg, #28a745, #6ddf95);
+        }
+
+        footer {
+            background: #1f2933;
+            color: #ccc;
+            padding: 20px;
+            text-align: center;
+        }
+        /* Donate Card */
+        .card.donate {
+            background: linear-gradient(135deg, #6366f1, #22c55e);
+        }
+
+        /* Dashboard Card */
+        .card.dashboard {
+            background: linear-gradient(135deg, #f97316, #ec4899);
+        }
+        .card-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 26px;
+            border-radius: 30px;
+            font-weight: bold;
+            text-decoration: none;
+            background: white;
+        }
+
+        .card-btn.blue {
+            color: #2563eb;
+        }
+
+        .card-btn.green {
+            color: #16a34a;
+        }
+
+        .card-btn:hover {
+            opacity: 0.9;
+        }
+        .card-icon {
+        font-size: 46px;
+        margin-bottom: 15px;
+    }
+    .footer {
+                background: linear-gradient(90deg, #1f2937, #111827);
+                color: #e5e7eb;
+                text-align: center;
+                padding: 18px;
+                font-size: 14px;
+            }
+
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <h2>💊 Medicine Donation System</h2>
+    <div class="nav-links">
+    <a href="/donor/home">Home</a>
+    <a href="/donor/profile">Profile</a>
+    <a href="/logout">Logout</a>
+</div>
+
+</div>
+
+<!-- HERO IMAGE -->
+<div class="hero">
+    <div class="hero-text">
+        <h1>Welcome, Donor ❤️</h1>
+        <p>Your contribution helps save lives</p>
+    </div>
+</div>
+
+<!-- ACTION CARDS -->
+<div class="cards-container">
+
+    <div class="card donate">
+        <div class="card-icon">💊</div>
+        <h3>Donate Medicine</h3>
+        <p>Donate unused medicines to NGOs safely</p>
+        <a href="/upload" class="card-btn blue">Donate Now</a>
+    </div>
+
+    <div class="card dashboard">
+        <div class="card-icon">📊</div>
+        <h3>My Dashboard</h3>
+        <p>View your donated medicines and feedback</p>
+        <a href="/donor/dashboard" class="card-btn green">View Dashboard</a>
+    </div>
+
+</div>
+
+
+<footer>
+    <p>© 2026 AI Enabled Medicine Donation System</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Available Medicine Stock</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f8;
+            padding: 30px;
+        }
+        table {
+            width: 100%;
+            background: white;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+        th {
+            background: #2c7be5;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<h2>📦 Available Medicine Stock</h2>
+
+<table>
+    <tr>
+        <th>Medicine Name</th>
+        <th>Remaining Quantity</th>
+        <th>Expiry Date</th>
+        <th>Priority</th>
+    </tr>
+
+    {% for m in medicines %}
+    <tr>
+        <td>{{ m.medicine_name }}</td>
+        <td>{{ m.quantity }}</td>
+        <td>{{ m.expiry_date }}</td>
+        <td>{{ m.priority }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>

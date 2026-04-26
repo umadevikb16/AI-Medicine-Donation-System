@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Donation History</title>
+    <style>
+        body {
+            font-family: Arial;
+            background-color: #f4f6f8;
+            padding: 30px;
+        }
+        h2 {
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        .high { color: red; font-weight: bold; }
+        .medium { color: orange; font-weight: bold; }
+        .low { color: green; font-weight: bold; }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 16px;
+            background-color: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+        .badge {
+    display: inline-block;
+    padding: 4px 10px;
+    font-size: 12px;
+    border-radius: 20px;
+    margin-left: 6px;
+    font-weight: bold;
+}
+
+.badge-expiring {
+    background-color: #dc3545;
+    color: white;
+}
+.tooltip {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.tooltip .tooltip-text {
+    visibility: hidden;
+    opacity: 0;
+    width: 200px;
+    background-color: #333;
+    color: white;
+    text-align: left;
+    padding: 8px;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    font-size: 12px;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+ /* 🌙 DARK MODE TABLE FIX */
+body.dark table {
+    background-color: #1e1e1e;
+}
+
+body.dark th {
+    background-color: #0d6efd;
+    color: white;
+}
+
+body.dark td {
+    background-color: #1e1e1e;
+    color: #eaeaea;
+    border-color: #333;
+}
+
+/* Expiring row highlight in dark mode */
+body.dark tr[style] td {
+    background-color: #3a1e1e !important;
+}
+body.dark .high {
+    color: #ff6b6b;
+}
+
+body.dark .medium {
+    color: #ffc107;
+}
+
+body.dark .low {
+    color: #51cf66;
+}
+.page-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.back-arrow {
+    font-size: 22px;
+    color: #2c7be5;
+    text-decoration: none;
+    margin-right: 12px;
+    font-weight: bold;
+}
+
+.back-arrow:hover {
+    color: #1a5bb8;
+}
+
+    </style>
+</head>
+<body>
+<div class="navbar">
+    <h2>💊 Medicine Donation System</h2>
+    <div class="nav-links">
+        {% if session.get("admin_logged_in") %}
+    <a href="/admin/home">Home</a>
+
+    {% elif session.get("user_role") == "donor" %}
+    <a href="/">Home</a>
+
+    {% elif session.get("user_role") == "ngo" %}
+    <a href="/ngo/dashboard">Home</a>
+
+    {% else %}
+    <a href="/">Home</a>
+    {% endif %}
+        {% if not session.get("admin_logged_in") %}
+        <a href="/upload">Donate</a>
+        {% endif %}
+        <a href="/history">History</a>
+        <a href="/dashboard">Dashboard</a>
+
+         <button id="themeBtn" onclick="toggleDarkMode()"
+style="
+    background:none;
+    border:1px solid white;
+    color:white;
+    padding:6px 12px;
+    border-radius:6px;
+    cursor:pointer;
+     margin-left:15px;
+">
+🌙
+</button>
+    </div>
+</div>
+<div class="page-header">
+    <a href="/admin/dashboard" class="back-arrow">←</a>
+<h2>📋 Donation History</h2>
+</div>
+<form method="get" action="/history" style="text-align:center; margin-bottom:20px;">
+    <input type="text" name="search"
+           placeholder="Search by medicine name"
+           value="{{ search or '' }}"
+           style="padding:8px; width:250px;">
+
+    <button type="submit" style="padding:8px 14px;">
+        🔍 Search
+    </button>
+</form>
+
+
+<table>
+    <tr>
+        <th>Medicine Name</th>
+        <th>Expiry Date</th>
+        <th>Quantity</th>
+        <th>Impact Score</th>
+        <th>Priority</th>
+        <th>Date</th>
+    </tr>
+
+   {% for d in donations %}
+<tr
+{% if d.expiry_alert %}
+    style="background-color:#ffe0e0;"
+{% endif %}
+>   
+    <td>
+   {{ d.medicine_name }}
+
+{% if d.expiry_alert %}
+    <span class="tooltip">
+        ⚠
+        <span class="tooltip-text">
+            Expiry Date: {{ d.expiry_date }}<br>
+            Needs urgent redistribution
+        </span>
+    </span>
+{% endif %}
+
+</td>
+
+    <td>{{ d.expiry_date or "N/A" }}</td>
+    <td>{{ d.quantity }}</td>
+    <td>{{ d.impact_score }}</td>
+    <td class="{{ d.priority|lower }}">{{ d.priority }}</td>
+    <td>{{ d.created_at.strftime("%d-%m-%Y") }}</td>
+</tr>
+{% endfor %}
+
+
+   
+</table>
+
+<center>
+    {% if not session.get("admin_logged_in") %} 
+    <a href="/upload" class="back-btn">➕ Upload New Donation</a>
+    {% endif %}
+</center>
+<script>
+function toggleDarkMode() {
+    document.body.classList.toggle("dark");
+
+    const btn = document.getElementById("themeBtn");
+    if (document.body.classList.contains("dark")) {
+        btn.innerText = "☀️";
+        localStorage.setItem("theme", "dark");
+    } else {
+        btn.innerText = "🌙";
+        localStorage.setItem("theme", "light");
+    }
+}
+
+window.onload = function () {
+    const btn = document.getElementById("themeBtn");
+    if (localStorage.getItem("theme") === "dark") {
+        document.body.classList.add("dark");
+        btn.innerText = "☀️";
+    }
+};
+</script>
+
+
+</body>
+</html>

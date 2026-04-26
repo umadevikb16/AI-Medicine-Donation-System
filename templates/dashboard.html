@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            background-color: #2c7be5;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            margin-left: 20px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* CARD */
+        .box {
+            background: white;
+            padding: 30px;
+            max-width: 700px;
+            margin: 40px auto;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 10px;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+
+        .stat {
+            padding: 15px;
+            border-radius: 8px;
+            width: 22%;
+            color: white;
+            font-weight: bold;
+        }
+
+        .high { background: #dc3545; }
+        .medium { background: #ffc107; color: black; }
+        .low { background: #28a745; }
+
+        a.logout {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: red;
+            font-weight: bold;
+        }
+        canvas {
+    image-rendering: auto;
+}
+
+@media (max-width: 768px) {
+    .stats {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .stat {
+        width: 100%;
+    }
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.tooltip .tooltip-text {
+    visibility: hidden;
+    width: 220px;
+    background-color: #333;
+    color: #fff;
+    text-align: left;
+    padding: 10px;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+    max-height: 150px;
+    overflow-y: auto;
+
+}
+
+.tooltip:hover .tooltip-text {
+    visibility: visible;
+}
+/* 🔥 Pulse animation for Expiring Soon card */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.stat.tooltip {
+    animation: pulse 2s infinite;
+}
+.chart-container {
+    width: 100%;
+    max-width: 700px; 
+    
+    margin: 30px auto;    /* center */
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+@media (max-width: 768px) {
+    .chart-container {
+        max-width: 95%;   /* mobile width */
+        padding: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .bar-chart-container {
+        height: 220px;
+    }
+    .line-chart-container {
+        height: 200px;    /* Smaller on mobile */
+    }
+}
+
+.dashboard-container {
+    max-width: 900px;
+    margin: 40px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+.center-links {
+    text-align: center;
+    margin-top: 10px;
+}
+/* 🌙 DARK MODE */
+body.dark {
+    background-color: #121212;
+    color: #eaeaea;
+}
+
+body.dark .navbar {
+    background-color: #1f1f1f;
+}
+
+body.dark .box,
+body.dark .chart-container,
+body.dark .card {
+    background-color: #1e1e1e;
+    color: #eaeaea;
+}
+
+body.dark a {
+    color: #90caf9;
+}
+
+body.dark .tooltip-text {
+    background-color: #000;
+}
+
+body.dark canvas {
+    background-color: transparent;
+}
+.chart-wrapper {
+    position: relative;
+    height: 280px;   /* 🔥 FIX */
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .chart-wrapper {
+        height: 220px;   /* mobile */
+    }
+}
+
+:root {
+    --chart-text: #000000;
+}
+
+body.dark {
+    --chart-text: #ffffff;
+}
+
+    </style>
+</head>
+
+<body>
+
+<div class="navbar">
+    <h2>💊 Medicine Donation System</h2>
+    <div class="nav-links">
+        {% if session.get("admin_logged_in") %}
+    <a href="/admin/home">Home</a>
+
+    {% elif session.get("user_role") == "donor" %}
+    <a href="/">Home</a>
+
+    {% elif session.get("user_role") == "ngo" %}
+    <a href="/ngo/dashboard">Home</a>
+
+    {% else %}
+    <a href="/">Home</a>
+    {% endif %}
+
+        {% if not session.get("admin_logged_in") %}
+        <a href="/upload">Donate</a>
+        {% endif %}
+        <a href="/history">History</a>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/admin/stock-history">Stock History</a>
+    
+    <button class="theme-toggle"  onclick="toggleDarkMode()"
+style="
+    background:none;
+    border:1px solid white;
+    color:white;
+    padding:6px 12px;
+    border-radius:6px;
+    cursor:pointer;
+">
+🌙
+</button>
+</div>
+</div>
+
+    <div class="box">
+    <h2>📊 Donation Dashboard</h2>
+    <h3>🏅 Recommended NGOs</h3>
+
+{% if ngo_priority and ngo_priority|length > 0 %}
+    <ul style="list-style:none; padding:0; margin-top:10px;">
+        {% for ngo in ngo_priority %}
+            <li style="
+                background:#f1f5f9;
+                padding:10px;
+                margin-bottom:8px;
+                border-radius:6px;
+                font-weight:bold;
+            ">
+                {{ ngo.name }}
+                <span style="
+                    float:right;
+                    color:
+                        {% if ngo.priority == 'High' %}#dc3545
+                        {% elif ngo.priority == 'Medium' %}#f59e0b
+                        {% else %}#16a34a{% endif %}
+                ">
+                    {{ ngo.priority }}
+                </span>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+    <div class="stats">
+
+    <div class="stat high tooltip">
+        High: {{ high_count }}
+        <div class="tooltip-text">
+            Medicines that need urgent redistribution
+        </div>
+    </div>
+
+    <div class="stat medium tooltip">
+        Medium: {{ medium_count }}
+        <div class="tooltip-text">
+            Medicines with moderate urgency
+        </div>
+    </div>
+
+    <div class="stat low tooltip">
+        Low: {{ low_count }}
+        <div class="tooltip-text">
+            Medicines safe for later distribution
+        </div>
+    </div>
+
+</div>
+
+        <div class="stat tooltip" style="background:#fd7e14;">
+    ⚠️ Expiring Soon: {{ expiring_count }}
+
+    <div class="tooltip-text">
+        <strong>Medicines:</strong><br>
+        {% for med in expiring_medicines %}
+            •  {{ med.medicine_name | default("Unknown Medicine") }}<br>
+        {% else %}
+            No medicines expiring soon
+        {% endfor %}
+    </div>
+</div>
+
+    </div>
+
+    <!-- 🔹 BAR CHART CARD -->
+   <div class="chart-container">
+    <h3>📊 Priority Distribution</h3>
+    <div class="chart-wrapper">
+        <canvas id="barChart"></canvas>
+    </div>
+</div>
+
+
+ <!-- 🔹 LINE CHART CARD -->
+    <div class="chart-container">
+    <h3>📈 Donations Over Time</h3>
+    <div class="chart-wrapper">
+        <canvas id="lineChart"></canvas>
+    </div>
+</div>
+
+
+
+    <br>
+    <!-- 🔹 LINKS -->
+    <div class="center-links">
+        <a href="/history">📋 View Donation History</a><br><br>
+        <a href="/logout" class="logout">🚪 Logout</a>
+    </div>
+
+<script>
+    const barCtx = document.getElementById('barChart').getContext('2d');
+    if(barCtx){
+    new Chart(barCtx, {
+        type: 'bar',
+        data: {
+            labels: ['High', 'Medium', 'Low'],
+            datasets: [{
+                data: [{{ high_count }},{{ medium_count }},{{ low_count }} ],
+                backgroundColor: ['#dc3545','#ffc107','#28a745']
+            }]
+        },
+        options: {
+        responsive: true,
+        maintainAspectRatio: false, 
+        plugins: { legend: { display: false }},
+        scales: {
+            x: {ticks: { color: getComputedStyle(document.body).getPropertyValue('--chart-text')}},
+            y: {
+                beginAtZero: true,
+                ticks: {color: getComputedStyle(document.body).getPropertyValue('--chart-text')}
+                }
+            }
+        }
+    });
+}
+
+</script>
+<script>
+const lineCtx = document.getElementById('lineChart').getContext('2d');
+
+new Chart(lineCtx, {
+    type: "line",
+    data: {
+        labels: {{ dates | safe }},
+        datasets: [{
+            data: {{ counts | safe }},
+            borderColor: "#2c7be5",
+            backgroundColor: "rgba(44,123,229,0.2)",
+            fill: true,
+            tension: 0.4,
+            pointRadius: 4
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { duration: 800 },
+        plugins: {
+            legend: { display: false }
+        },
+        scales: {
+            x: {
+                ticks: {
+                    color: getComputedStyle(document.body)
+                        .getPropertyValue('--chart-text')
+                }
+            },
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    color: getComputedStyle(document.body)
+                        .getPropertyValue('--chart-text')
+                }
+            }
+        }
+    }
+});
+</script>
+
+
+{% if expiring_count > 0 %}
+<script>
+    alert("⚠️ {{ expiring_count }} medicine(s) are expiring soon! Please check dashboard.");
+</script>
+{% endif %}
+<script>
+    const themeBtn = document.querySelector(".theme-toggle");
+
+function updateThemeIcon() {
+    themeBtn.innerText =
+        document.body.classList.contains("dark") ? "☀️" : "🌙";
+}
+function toggleDarkMode() {
+    document.body.classList.toggle("dark");
+
+    // Save preference
+    if (document.body.classList.contains("dark")) {
+        localStorage.setItem("theme", "dark");
+    } else {
+        localStorage.setItem("theme", "light");
+    }
+    updateThemeIcon();
+}
+
+// Load saved mode
+window.onload = function () {
+    if (localStorage.getItem("theme") === "dark") {
+        document.body.classList.add("dark");
+    }
+    updateThemeIcon();
+};
+</script>
+
+</body>
+</html>

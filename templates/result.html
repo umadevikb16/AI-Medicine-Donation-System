@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Donation Result</title>
+    <style>
+        body {
+            font-family: Arial;
+            background-color: #f4f6f8;
+            padding: 40px;
+        }
+        .box {
+            background: white;
+            padding: 25px;
+            max-width: 500px;
+            margin: auto;
+            border-radius: 8px;
+            box-shadow: 0 0 10px #ccc;
+        }
+        h2 {
+            color: green;
+        }
+        p {
+            font-size: 16px;
+        }
+            .priority {
+        font-weight: bold;
+        padding: 4px 10px;
+        border-radius: 6px;
+        color: white;
+    }
+
+    .priority.high {
+        background-color: #e74c3c; /* red */
+    }
+
+    .priority.medium {
+        background-color: #f39c12; /* orange */
+    }
+
+    .priority.low {
+        background-color: #2ecc71; /* green */
+    }
+    .upload-again-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.upload-again-btn:hover {
+    background-color: #0056b3;
+}
+
+    </style>
+</head>
+<body>
+<div class="navbar">
+    <h2>💊 Medicine Donation System</h2>
+    <div class="nav-links">
+        <a href="/upload">Donate</a>
+        <a href="/my/donations">History</a>
+        <a href="/donor/dashboard">Dashboard</a>
+    </div>
+</div>
+
+<div class="box">
+    <h2>✅ Donation Saved Successfully</h2>
+    <p><b>Donation ID:</b> {{ donation_id }}</p>
+    <p><b>Impact Score:</b> {{ impact_score }}</p>
+    <p>
+    <b>Priority:</b>
+    <span class="priority {{ priority|lower }}">
+        {{ priority }}
+    </span>
+</p>
+    {% if assigned_ngo %}
+        <p><b>Assigned NGO:</b> {{ assigned_ngo }}</p>
+        <p><b>Distance:</b> {{ distance_km }} km</p>
+        {% endif %}
+<hr>
+
+<h3>📱 QR Code Preview</h3>
+
+<img src="{{ url_for('static', filename=qr_image) }}"
+     alt="QR Code"
+     style="width:200px; margin-top:10px;">
+     <br><br>
+
+<a href="{{ url_for('static', filename=qr_image) }}"
+   download
+   style="
+      display:inline-block;
+      padding:10px 18px;
+      background-color:#3498db;
+      color:white;
+      text-decoration:none;
+      border-radius:6px;
+      font-weight:bold;
+   ">
+   ⬇️ Download QR Code
+</a>
+<hr>
+
+<a href="/upload" class="upload-again-btn">
+    ➕ Upload Another Donation
+</a>
+<br>
+<a href="/my/donations" class="upload-again-btn">
+    📋 View Donation History
+</a>
+<br>
+<a href="/donor/dashboard" class="upload-again-btn">
+    📊 View Dashboard
+</a>
+
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Stock History</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background: #2c7be5;
+            color: white;
+        }
+
+        tr:hover {
+            background: #f1f5f9;
+        }
+        .page-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.back-btn {
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
+    color: #2c7be5;
+}
+
+.back-btn:hover {
+    color: #1a5bb8;
+}
+
+    </style>
+</head>
+
+<body>
+<div class="page-header">
+    <a href="/admin/dashboard" class="back-btn">←</a>
+<h2>📦 Stock History Log</h2>
+</div>
+<table>
+    <tr>
+        <th>Medicine</th>
+        <th>Action</th>
+        <th>Quantity Changed</th>
+        <th>Previous Stock</th>
+        <th>New Stock</th>
+        <th>Admin</th>
+        <th>Date</th>
+    </tr>
+
+    {% for log in logs %}
+    <tr>
+        <td>{{ log.medicine_name }}</td>
+        <td>{{ log.action }}</td>
+        <td>{{ log.quantity_changed }}</td>
+        <td>{{ log.previous_stock }}</td>
+        <td>{{ log.new_stock }}</td>
+        <td>{{ log.admin }}</td>
+        <td>{{ log.timestamp.strftime("%d-%m-%Y %H:%M") if log.timestamp else "-" }}</td>
+    </tr>
+    {% else %}
+    <tr>
+        <td colspan="7">No stock history available</td>
+    </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>

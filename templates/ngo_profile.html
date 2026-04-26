@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NGO Profile</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            min-height: 100vh;
+            background: radial-gradient(
+                circle at top left,
+                #dbeafe,
+                #ecfeff,
+                #f0fdf4
+            );
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card {
+            width: 450px;
+            margin: 60px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 15px;
+            margin: 8px 0;
+        }
+
+        .btn {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            background: #2c7be5;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .profile-card {
+            width: 480px;
+            background: white;
+            padding: 35px 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+            text-align: center;
+        }
+        .profile-header {
+            background: linear-gradient(90deg, #2563eb, #22c55e);
+            color: white;
+            padding: 20px;
+            border-radius: 16px;
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+        .profile-details {
+            text-align: left;
+            margin-top: 10px;
+        }
+
+        .profile-details p {
+            font-size: 16px;
+            margin: 10px 0;
+            color: #374151;
+        }
+
+        .profile-details strong {
+            color: #111827;
+        }
+        .edit-btn {
+            margin-top: 25px;
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            background: linear-gradient(90deg, #2563eb, #4f46e5);
+            color: white;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .edit-btn:hover {
+            transform: translateY(-3px);
+        }
+        .profile-card {
+            box-shadow:
+                0 20px 40px rgba(0,0,0,0.12),
+                0 0 60px rgba(37, 99, 235, 0.15);
+        }
+        .back-icon {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: #2563eb;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 18px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+        }
+
+        .profile-card {
+            position: relative;
+        }
+
+
+    </style>
+</head>
+<body>
+
+<div class="profile-card">
+    <a href="/ngo/dashboard" class="back-icon">←</a>
+
+    <div class="profile-header">
+        NGO Profile
+    </div>
+
+    <div class="profile-details">
+        <p><strong>NGO Name:</strong> {{ ngo.get("ngo_name", "N/A") }}</p>
+        <p><strong>NGO Type:</strong> {{ ngo.get("ngo_type", "N/A") }}</p>
+        <p><strong>Email:</strong> {{ ngo.get("email", "N/A") }}</p>
+        <p><strong>Phone:</strong> {{ ngo.get("phone", "N/A") }}</p>
+        <p><strong>Location:</strong> {{ ngo.get("location", "N/A") }}</p>
+        <p><strong>Priority Level:</strong> {{ ngo.get("priority", "N/A") }}</p>
+
+    </div>
+
+    <a href="/ngo/profile/edit" class="btn">Edit Profile</a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Donation History</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+        }
+
+        .navbar {
+            background: #2c7be5;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            margin-left: 20px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            padding: 30px;
+        }
+
+        .back {
+            font-size: 20px;
+            text-decoration: none;
+            color: #2c7be5;
+            font-weight: bold;
+        }
+
+        .donation {
+            background: white;
+            padding: 20px;
+            border-radius: 14px;
+            margin-top: 20px;
+            display: flex;
+            gap: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        .donation img {
+            width: 150px;
+            border-radius: 10px;
+        }
+
+        .details p {
+            margin: 6px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="navbar">
+    <h2>💊 Medicine Donation System</h2>
+    <div class="nav-links">
+        <a href="/donor/home">Home</a>
+        <a href="/upload">Donate</a>
+        <a href="/donor/dashboard">Dashboard</a>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+
+<div class="container">
+    <a href="/donor/home" class="back">← Back</a>
+
+    <h2>📜 Donation History</h2>
+{% if donations %}
+<table style="
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+    margin-top:20px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.12);
+    border-radius:10px;
+    overflow:hidden;
+">
+    <thead style="background:#2c7be5;color:white;">
+        <tr>
+            <th style="padding:14px;text-align:left;">Donation ID</th>
+            <th style="padding:14px;text-align:left;">Medicine Name</th>
+            <th style="padding:14px;text-align:left;">Remaining Quantity</th>
+            <th style="padding:14px;text-align:left;">Donated On</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for d in donations %}
+        <tr style="border-bottom:1px solid #eee;">
+            <td style="padding:12px;">{{ d._id }}</td>
+            <td style="padding:12px;">{{ d.medicine_name }}</td>
+            <td style="padding:12px;">{{ d.quantity }}</td>
+            <td style="padding:12px;">
+                {{ d.created_at.strftime("%d-%m-%Y %I:%M %p") }}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p style="margin-top:30px;color:#666;">
+    No donation history available.
+</p>
+{% endif %}
+
+</div>
+
+</body>
+</html>

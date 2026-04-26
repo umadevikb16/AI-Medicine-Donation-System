@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Donor Dashboard</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: linear-gradient(135deg, #e3f2fd, #f8fbff);
+            color: #333;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            background: linear-gradient(135deg, #2c7be5, #4facfe);
+            color: white;
+            padding: 16px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .nav-links a {
+            color: white;
+            margin-left: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* PAGE CONTAINER */
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 60px 30px;
+        }
+
+        .page-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 30px;
+            margin-bottom: 40px;
+        }
+
+        .page-title span {
+            font-size: 34px;
+        }
+
+        /* DASHBOARD CARDS */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(10px);
+            padding: 40px 35px;
+            border-radius: 22px;
+            box-shadow: 0 18px 45px rgba(0,0,0,0.18);
+            transition: all 0.35s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            top: -40px;
+            right: -40px;
+            width: 120px;
+            height: 120px;
+            background: rgba(255,255,255,0.25);
+            border-radius: 50%;
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 28px 60px rgba(0,0,0,0.25);
+        }
+
+        .card-icon {
+            font-size: 42px;
+            margin-bottom: 18px;
+        }
+
+        .card h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            font-size: 16px;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        .card a {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 14px 36px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            color: white;
+            font-size: 15px;
+            letter-spacing: 0.3px;
+        }
+
+        /* CARD THEMES */
+        .history {
+            background: linear-gradient(135deg, #fff3e0, #fff8e1);
+        }
+
+        .history .card-icon {
+            color: #ff9800;
+        }
+
+        .history a {
+            background: linear-gradient(135deg, #ff9800, #ffc107);
+        }
+
+        .donations {
+            background: linear-gradient(135deg, #e8f5e9, #f1fff5);
+        }
+
+        .donations .card-icon {
+            color: #28a745;
+        }
+
+        .donations a {
+            background: linear-gradient(135deg, #28a745, #6ddf95);
+        }
+
+        /* FOOTER */
+        footer {
+            margin-top: 80px;
+            background: #1f2933;
+            color: #ccc;
+            text-align: center;
+            padding: 22px;
+            font-size: 14px;
+        }
+        .badge-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 25px;
+    border-radius: 18px;
+    color: white;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+    margin-bottom: 40px;
+}
+
+.badge-icon {
+    font-size: 60px;
+}
+
+.badge-text h3 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.badge-text p {
+    margin-top: 6px;
+    font-size: 15px;
+    opacity: 0.95;
+}
+
+    </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <h2>💊 Medicine Donation System</h2>
+    <div class="nav-links">
+        <a href="/donor/home">Home</a>
+        <a href="/donor/profile">Profile</a>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+
+<!-- CONTENT -->
+<div class="container">
+<!-- BADGE SECTION -->
+<div class="badge-card" style="background: {{ badge_color }};">
+    <div class="badge-icon">{{ badge_icon }}</div>
+    <div class="badge-text">
+        <h3>{{ badge }}</h3>
+        <p>Total Donations: {{ total_donations }}</p>
+    </div>
+</div>
+    <div class="page-title">
+        <span>📊</span>
+        <strong>My Dashboard</strong>
+    </div>
+
+    <div class="cards">
+        <h3>📄 Donation Certificate</h3>
+    <p>Download your contribution certificate</p>
+    <a href="/donor/certificate"
+       style="background:linear-gradient(135deg,#6a11cb,#2575fc);
+              color:white;
+              padding:14px 28px;
+              border-radius:30px;
+              display:inline-block;
+              margin-top:20px;
+              text-decoration:none;
+              font-weight:bold;">
+        Download Certificate
+    </a>
+        <!-- DONATION HISTORY CARD -->
+        <div class="card history">
+            <div class="card-icon">📋</div>
+            <h3>Donation History</h3>
+            <p>
+                View your complete donation records including
+                donation ID, quantity, and submission time
+                in a clean table format.
+            </p>
+            <a href="/donor/history">View History</a>
+        </div>
+
+        <!-- MY DONATIONS CARD -->
+        <div class="card donations">
+            <div class="card-icon">📦</div>
+            <h3>My Donations</h3>
+            <p>
+                Track donated medicines with expiry,
+                current status (Stored / Assigned / Delivered)
+                and NGO feedback.
+            </p>
+            <a href="/my/donations">View Donations</a>
+        </div>
+
+    </div>
+</div>
+
+<footer>
+    <p>© 2026 AI Enabled Medicine Donation System</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NGO Registration</title>
+    <style>
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: linear-gradient(135deg, #dbeafe, #ecfdf5);
+}
+
+/* CENTER PAGE */
+.page-wrapper {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* CARD */
+.register-card {
+    width: 440px;
+    background: white;
+    padding: 35px 40px;
+    border-radius: 22px;
+    box-shadow: 0 20px 45px rgba(0,0,0,0.12);
+}
+
+/* TITLE */
+.register-title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 25px;
+    padding: 14px;
+    border-radius: 14px;
+    color: white;
+    background: linear-gradient(90deg, #2563eb, #22c55e);
+}
+
+/* INPUTS */
+.register-card input {
+    width: 100%;
+    padding: 12px 14px;
+    margin-bottom: 14px;
+    border-radius: 10px;
+    border: 1px solid #d1d5db;
+    font-size: 14px;
+}
+
+.register-card input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 2px rgba(37,99,235,0.2);
+}
+
+/* BUTTON */
+.register-btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(90deg, #22c55e, #16a34a);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.register-btn:hover {
+    opacity: 0.95;
+}
+
+/* LOGIN LINK */
+.login-link {
+    text-align: center;
+    margin-top: 18px;
+}
+
+.login-link a {
+    color: #2563eb;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
+
+    </style>
+</head>
+<body>
+
+<div class="page-wrapper">
+
+    <div class="register-card">
+
+        <div class="register-title">
+            NGO Registration
+        </div>
+
+        <form method="POST">
+
+            <input type="text" name="ngo_name" placeholder="NGO Name" required>
+
+            <input type="text" name="ngo_type" placeholder="NGO Type (e.g. Orphanage, Refugee)" required>
+
+            <input type="email" name="email" placeholder="Email" required>
+
+            <input type="text" name="phone" placeholder="Contact Number" required>
+
+            <input type="text" name="location" placeholder="City / Area" required>
+
+            <input type="text" name="latitude" placeholder="Latitude (e.g. 12.9716)" required>
+
+            <input type="text" name="longitude" placeholder="Longitude (e.g. 77.5946)" required>
+
+            <input type="password" name="password" placeholder="Password" required>
+
+            <button type="submit" class="register-btn">
+                Register NGO
+            </button>
+
+        </form>
+
+        <div class="login-link">
+            Already registered? <a href="/login">Login</a>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

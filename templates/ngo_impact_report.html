@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NGO Impact Report</title>
+    <style>
+        body {
+        margin: 0;
+        font-family: 'Segoe UI', Tahoma, sans-serif;
+        background: linear-gradient(135deg, #f0f7ff, #e8f9f1);
+        }
+
+        .container {
+            padding: 30px;
+        }
+
+        h2 {
+            margin-bottom: 25px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        .card h3 {
+            margin: 0;
+            font-size: 16px;
+            color: #555;
+        }
+
+        .card p {
+            font-size: 32px;
+            font-weight: bold;
+            margin-top: 10px;
+            color: #2c7be5;
+        }
+
+        .success {
+            color: green;
+        }
+        .stat-card {
+        background: white;
+        border-radius: 16px;
+        padding: 25px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .stat-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 14px 30px rgba(0,0,0,0.12);
+        }
+        .stat-card::before {
+        content: "";
+        display: block;
+        height: 5px;
+        width: 60px;
+        background: linear-gradient(90deg, #2c7be5, #22c55e);
+        border-radius: 10px;
+        margin-bottom: 12px;
+        }
+        .impact-section {
+        margin-top: 30px;
+        padding: 30px;
+        border-radius: 18px;
+        background: linear-gradient(135deg, #ffffff, #f0fdfa);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+        .impact-message {
+        margin-top: 25px;
+        padding: 18px;
+        border-radius: 14px;
+        text-align: center;
+        font-size: 18px;
+        color: white;
+        background: linear-gradient(90deg, #2c7be5, #22c55e);
+        }
+        .chart-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .chart-card:hover {
+            transform: translateY(-6px);
+        }
+
+        .chart-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #1f2937;
+            text-align: center;
+        }
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+<body>
+
+<div class="container">
+    <h2>NGO Impact Report</h2>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>Total Requests Made</h3>
+            <p>{{ total_requests }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Medicines Received</h3>
+            <p>{{ total_medicines_received }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Total Quantity Distributed</h3>
+            <p>{{ total_quantity_distributed }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Distribution Success Rate</h3>
+            <p class="success">{{ success_rate }}%</p>
+        </div>
+
+    </div>
+    <h3 style="margin-top:40px;">Impact Visualization</h3>
+
+<div style="display:flex; gap:40px; flex-wrap:wrap; margin-top:20px;">
+
+<div class="chart-card" style="width:400px;">
+    <div class="chart-title">Requests Overview</div>
+    <canvas id="barChart"></canvas>
+</div>
+
+<div class="chart-card" style="width:400px;">
+    <div class="chart-title">Delivery Status</div>
+    <canvas id="pieChart"></canvas>
+</div>
+
+
+</div>
+<div class="impact-message">
+    💙 Your NGO has successfully delivered medicines to people in need
+</div>
+
+</div>
+<script>
+    // ---------- BAR CHART ----------
+    const barCtx = document.getElementById('barChart').getContext('2d');
+    new Chart(barCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Total Requests', 'Medicines Received'],
+            datasets: [{
+                label: 'Requests Overview',
+                data: [{{ total_requests }}, {{ total_medicines_received }}],
+                backgroundColor: ['#3b82f6', '#22c55e'],
+                borderRadius: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+
+    // ---------- PIE / DOUGHNUT ----------
+    const delivered = {{ total_medicines_received }};
+    const pending = {{ pending_requests }};
+
+    const showEmpty = delivered === 0 && pending === 0;
+
+    const pieCtx = document.getElementById('pieChart').getContext('2d');
+
+    const pieChart = new Chart(pieCtx, {
+        type: 'doughnut',
+        data: {
+            labels: showEmpty ? ['No Data Yet'] : ['Delivered', 'Pending'],
+            datasets: [{
+                data: showEmpty ? [1] : [delivered, pending],
+                backgroundColor: showEmpty
+                    ? ['#e5e7eb']
+                    : ['#22c55e', '#f97316'],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            cutout: '70%',
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+
+    // ---------- CENTER TEXT ----------
+    Chart.register({
+        id: 'centerText',
+        afterDraw(chart) {
+            const { ctx } = chart;
+            ctx.save();
+            ctx.font = 'bold 18px Segoe UI';
+            ctx.fillStyle = '#374151';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+
+            const text = showEmpty ? 'No Data' : delivered + ' Delivered';
+            ctx.fillText(text, chart.width / 2, chart.height / 2);
+            ctx.restore();
+        }
+    });
+</script>
+
+
+</body>
+</html>

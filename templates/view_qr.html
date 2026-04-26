@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Donation QR Code</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        img {
+            width: 260px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Donation QR Code</h2>
+    <p>Donation ID: {{ donation_id }}</p>
+    <img src="/static/{{ qr_image }}" alt="QR Code">
+    <br><br>
+    <a href="/static/{{ qr_image }}" download
+       style="padding:8px 14px; background:#16a34a; color:white; border-radius:6px; text-decoration:none;">
+        ⬇ Download QR
+    </a>
+</div>
+
+</body>
+</html>

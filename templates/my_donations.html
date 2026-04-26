@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Donations</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            background: #2c7be5;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            margin-left: 20px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .container {
+            padding: 30px;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .back {
+            display: inline-block;
+            margin-bottom: 20px;
+            font-size: 20px;
+            text-decoration: none;
+            color: #2c7be5;
+            font-weight: bold;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .donation {
+            background: white;
+            padding: 20px;
+            border-radius: 14px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+            display: flex;
+            gap: 20px;
+        }
+
+        .donation img {
+            width: 160px;
+            height: auto;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .details p {
+            margin: 6px 0;
+            color: #333;
+        }
+
+        .status {
+            font-weight: bold;
+            color: #000;
+        }
+
+        .empty {
+            text-align: center;
+            color: #666;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <h2>💊 Medicine Donation System</h2>
+    <div class="nav-links">
+    <a href="/donor/home">Home</a>
+    <a href="/donor/profile">Profile</a>
+    <a href="/logout">Logout</a>
+</div>
+
+</div>
+
+<div class="container">
+
+    <!-- BACK ARROW -->
+    <a href="/donor/dashboard" class="back">← Back</a>
+
+
+    <h2>📦 My Donations</h2>
+
+    {% if donations %}
+        {% for d in donations %}
+        <div class="donation">
+            <img src="/{{ d.medicine_image }}" alt="Medicine Image">
+
+            <div class="details">
+                <h3>{{ d.medicine_name }}</h3>
+                {% if d.donated_quantity is defined %}
+                    <p><b>Donated Quantity:</b> {{ d.donated_quantity }}</p>
+                {% endif %}
+                <p><b>Remaining Stock:</b> {{ d.quantity }}</p>
+                <p>Expiry: {{ d.expiry_date }}</p>
+                <p>Donor Latitude: {{ d.donor_lat }}</p>
+                <p>Donor Longitude: {{ d.donor_lon }}</p>
+                <p class="status">Status: {{ d.status }}</p>
+            
+                {% if d.review %}
+                    <p><b>NGO Feedback:</b> {{ d.review }}</p>
+                {% else %}
+                    <p><i>No feedback yet</i></p>
+                {% endif %}
+            </div>
+            <!-- 🔳 QR CODE ACTIONS -->
+            <div style="margin-top:12px;">
+                <a href="/qr/{{ d._id }}" target="_blank"
+                style="padding:6px 12px; background:#2563eb; color:white;
+                        border-radius:6px; text-decoration:none; margin-right:8px;">
+                    📷 View QR
+                </a>
+
+                <a href="/static/qr_codes/{{ d._id }}.png" download
+                style="padding:6px 12px; background:#16a34a; color:white;
+                        border-radius:6px; text-decoration:none;">
+                    ⬇ Download QR
+                </a>
+            </div>
+
+        </div>
+        {% endfor %}
+    {% else %}
+        <p class="empty">You have not donated any medicines yet.</p>
+    {% endif %}
+
+</div>
+
+</body>
+</html>

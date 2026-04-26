@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Donate Medicine</title>
+
+    <!-- 🔹 CSS GOES INSIDE HEAD -->
+    <style>
+         body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            margin: 0;
+            background: linear-gradient(135deg, #e0f2fe, #ecfdf5);
+        }
+        .container {
+            min-height: calc(100vh - 70px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 35px 40px;
+            width: 480px;
+            border-radius: 20px;
+            box-shadow: 0 25px 45px rgba(0,0,0,0.15);
+            position: relative;
+        }
+
+        .card-header {
+            background: linear-gradient(90deg, #2563eb, #22c55e);
+            color: white;
+            padding: 14px;
+            text-align: center;
+            border-radius: 14px;
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+
+        /* 🔹 NAVBAR STYLE */
+        .navbar {
+            background-color: #2c7be5;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            margin-left: 20px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* 🔹 CARD STYLE */
+        .box {
+            background: white;
+            padding: 30px;
+            max-width: 500px;
+            margin: 40px auto;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        p {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="file"] {
+            width: 100%;
+            padding: 12px 14px;
+            margin-top: 6px;
+            margin-bottom: 18px;
+            border-radius: 10px;
+            border: 1px solid #d1d5db;
+            font-size: 14px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 2px rgba(37,99,235,0.2);
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(90deg, #22c55e, #16a34a);
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            opacity: 0.95;
+        }
+
+        /* 🌙 DARK MODE */
+        body.dark {
+            background-color: #121212;
+            color: #eaeaea;
+        }
+
+        body.dark .navbar {
+            background-color: #1f1f1f;
+        }
+
+        body.dark .box,
+        body.dark .card,
+        body.dark form {
+            background-color: #1e1e1e;
+            color: #eaeaea;
+        }
+
+        body.dark input,
+        body.dark select {
+            background-color: #2a2a2a;
+            color: #ffffff;
+            border: 1px solid #555;
+        }
+
+        body.dark input::placeholder {
+            color: #bbbbbb;
+        }
+
+        body.dark button {
+            background-color: #2ea043;
+            color: white;
+        }
+
+        body.dark a {
+            color: #90caf9;
+        }
+        /* 🔥 FORCE TEXT VISIBILITY IN DARK MODE */
+        body.dark h1,
+        body.dark h2,
+        body.dark h3,
+        body.dark p,
+        body.dark label,
+        body.dark span {
+            color: #ffffff !important;
+        }
+        .back-btn {
+            position: absolute;
+            top: 18px;
+            left: 18px;
+            width: 36px;
+            height: 36px;
+            background: #2563eb;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 18px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+        }
+
+    </style>
+</head>
+
+<body>
+
+<!-- 🔹 NAVBAR (YOU ALREADY HAD THIS – CORRECT) -->
+<div class="navbar">
+    <h2>💊 Medicine Donation System</h2>
+    <div class="nav-links">
+    <a href="/donor/home">Home</a>
+    <a href="/donor/dashboard">Dashboard</a>
+    <a href="/donor/profile">Profile</a>
+    <a href="/logout">Logout</a>
+
+    <button id="themeBtn" onclick="toggleDarkMode()"
+        style="
+            background:none;
+            border:1px solid white;
+            color:white;
+            padding:6px 12px;
+            border-radius:6px;
+            cursor:pointer;
+            margin-left:15px;
+        ">
+        🌙
+    </button>
+
+    </div>
+</div>
+<div class="container">
+    <div class="card">
+<a href="/donor/home" class="back-btn">←</a>
+    <div class="card-header">🩺 Donate Medicine</div>
+        <p style="text-align:center; margin-bottom:25px;">
+        Help NGOs by donating unused medicines safely.
+    </p>
+
+
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+
+        <label>Medicine Name</label>
+        <input type="text" name="medicine_name" placeholder="Enter medicine name" required>
+
+        <label>Medicine Image</label>
+        <input type="file" name="image" required>
+
+        <label>Donor Latitude</label>
+        <input type="text" name="donor_lat" required>
+
+        <label>Donor Longitude</label>
+        <input type="text" name="donor_lon" required>
+
+        <label>Expiry Date (optional)</label>
+        <input type="text" name="manual_expiry" placeholder="MM/YYYY">
+
+        <label>Quantity</label>
+        <input type="number" name="quantity" required>
+
+        <button type="submit">❤️ Donate Now</button>
+    </form>
+</div>
+</div>
+<script>
+function toggleDarkMode() {
+    document.body.classList.toggle("dark");
+
+    const btn = document.getElementById("themeBtn");
+    if (document.body.classList.contains("dark")) {
+        btn.innerText = "☀️";
+        localStorage.setItem("theme", "dark");
+    } else {
+        btn.innerText = "🌙";
+        localStorage.setItem("theme", "light");
+    }
+}
+
+window.onload = function () {
+    const btn = document.getElementById("themeBtn");
+    if (localStorage.getItem("theme") === "dark") {
+        document.body.classList.add("dark");
+        btn.innerText = "☀️";
+    }
+};
+</script>
+
+
+</body>
+</html>

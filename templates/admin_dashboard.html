@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: linear-gradient(135deg, #eef2ff, #f8fbff, #f0fdfa);
+        }
+
+        .navbar {
+            background: #2c7be5;
+            color: white;
+            padding: 15px 30px;
+            font-size: 20px;
+        }
+
+        .container {
+            display: flex;
+        }
+
+        .sidebar {
+            width: 220px;
+            background: #1f2937;
+            min-height: calc(100vh - 50px);
+            padding-top: 20px;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 12px 20px;
+            color: #d1d5db;
+            text-decoration: none;
+        }
+
+        .sidebar a:hover {
+            background: #374151;
+            color: white;
+        }
+
+        .main {
+            flex: 1;
+            padding: 30px;
+        }
+
+    .cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+        }
+
+    .card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(6px);
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    text-align: center;
+    cursor: pointer;
+    transition: 0.3s;
+    }
+    /* ===== COLORED DASHBOARD CARDS ===== */
+
+    .card.blue {
+        background: linear-gradient(135deg, #2563eb, #3b82f6);
+        color: white;
+    }
+
+    .card.orange {
+        background: linear-gradient(135deg, #f59e0b, #fbbf24);
+        color: white;
+    }
+
+    .card.green {
+        background: linear-gradient(135deg, #16a34a, #22c55e);
+        color: white;
+    }
+
+    .card.purple {
+        background: linear-gradient(135deg, #7c3aed, #a78bfa);
+        color: white;
+    }
+
+    .card.red {
+        background: linear-gradient(135deg, #dc2626, #f87171);
+        color: white;
+    }
+
+    .card.gray {
+        background: linear-gradient(135deg, #475569, #64748b);
+        color: white;
+    }
+
+    /* Text inside colored cards */
+    .card.blue h3,
+    .card.orange h3,
+    .card.green h3,
+    .card.purple h3,
+    .card.red h3,
+    .card.gray h3 {
+        color: #e0f2fe;
+    }
+
+    .card.blue p,
+    .card.orange p,
+    .card.green p,
+    .card.purple p,
+    .card.red p,
+    .card.gray p {
+        color: white;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+    .card h3 {
+        margin-bottom: 10px;
+        color: #555;
+    }
+
+    .card p {
+        font-size: 28px;
+        font-weight: bold;
+        color: #2c7be5;
+    }
+
+    .dashboard-bg {
+    min-height: 380px;
+    margin-top: 30px;
+    padding: 40px;
+
+    background: linear-gradient(
+    135deg,
+    rgba(224, 242, 254, 0.9),
+    rgba(240, 253, 250, 0.95)
+    );
+
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    }
+
+    .dashboard-bg h3 {
+        color: #1d4ed8;
+        font-size: 22px;
+        margin-bottom: 10px;
+    }
+
+    .dashboard-bg p {
+        color: #475569;
+        max-width: 520px;
+        line-height: 1.6;
+    }
+
+    .dashboard-img {
+    width: 360px;
+    max-width: 40%;
+    opacity: 0.95;
+    }
+
+    .dashboard-text h3 {
+        color: #1d4ed8;
+        font-size: 22px;
+        margin-bottom: 10px;
+    }
+
+    .dashboard-text p {
+        color: #475569;
+        max-width: 500px;
+        line-height: 1.6;
+    }
+    .image-slider {
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+}
+
+.image-track {
+    display: flex;
+    gap: 40px;
+    width: max-content;
+    animation: scrollImages 25s linear infinite;
+}
+
+.image-track img {
+    height: 220px;
+    border-radius: 14px;
+    opacity: 0.95;
+}
+
+/* Animation */
+@keyframes scrollImages {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+    </style>
+</head>
+
+<body>
+
+<div class="navbar">🛠 Admin Dashboard</div>
+
+<div class="container">
+
+    <div class="sidebar">
+        <a href="/admin/dashboard">Dashboard</a>
+        <a href="/dashboard">Donation Analytics</a>
+        <a href="/admin/ngo/requests">NGO Requests</a>
+        <a href="/admin/stock-history">Stock History</a>
+        <a href="/logout">Logout</a>
+    </div>
+
+    <div class="main">
+        <h2>Overview</h2>
+
+       <div class="cards">
+    <div class="card blue" onclick="location.href='/admin/donations'">
+        <h3>📦 Total Donations</h3>
+        <p>{{ total_donations }}</p>
+    </div>
+
+    <div class="card orange" onclick="location.href='/admin/ngo/requests'">
+        <h3>⏳ Pending Requests</h3>
+        <p>{{ pending_requests }}</p>
+    </div>
+
+    <div class="card green" onclick="location.href='/admin/ngo/requests'">
+        <h3>✅ Approved Requests</h3>
+        <p>{{ approved_requests }}</p>
+    </div>
+
+    <div class="card purple" onclick="location.href='/admin/ngo/requests'">
+        <h3>🚚 Delivered Requests</h3>
+        <p>{{ delivered_requests }}</p>
+    </div>
+
+    <div class="card red" onclick="location.href='/admin/expiring-medicines'">
+        <h3>⚠️ Expiring Medicines</h3>
+        <p>{{ expiring_count }}</p>
+    </div>
+
+    <div class="card gray" onclick="location.href='/admin/stock-history'">
+        <h3>📊 Stock History</h3>
+        <p>View</p>
+    </div>
+
+</div>
+<div class="dashboard-bg">
+
+    <div class="image-slider">
+        <div class="image-track">
+
+            <div class="image-card">
+                <img src="/static/images/medicine_bg.png" alt="Medicine Donation">
+                <p>Medicine Donations</p>
+            </div>
+
+            <div class="image-card">
+                <img src="/static/images/medicine2.png" alt="NGO Support">
+                <p>NGO Support</p>
+            </div>
+
+            <div class="image-card">
+                <img src="/static/images/medicine3.png" alt="Healthcare Help">
+                <p>Healthcare Assistance</p>
+            </div>
+
+            <!-- duplicate for smooth loop -->
+            <div class="image-card">
+                <img src="/static/images/medicine_bg.png">
+                <p>Medicine Donations</p>
+            </div>
+
+            <div class="image-card">
+                <img src="/static/images/medicine2.png">
+                <p>NGO Support</p>
+            </div>
+
+            <div class="image-card">
+                <img src="/static/images/medicine3.png">
+                <p>Healthcare Assistance</p>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+<img 
+        src="/static/images/medicine4.png" 
+        alt="Medicine Illustration"
+        class="dashboard-img">
+    </div>
+
+</div>
+
+</body>
+</html>

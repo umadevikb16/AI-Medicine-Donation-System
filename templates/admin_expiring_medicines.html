@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Expiring Medicines</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            padding: 30px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background: #ff6b6b;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<h2>⚠️ Expiring Medicines</h2>
+
+{% if medicines %}
+<table>
+    <tr>
+        <th>Medicine</th>
+        <th>Expiry Date</th>
+        <th>Quantity</th>
+        <th>Priority</th>
+        <th>Donor</th>
+    </tr>
+
+    {% for m in medicines %}
+    <tr>
+        <td>{{ m.medicine_name }}</td>
+        <td>{{ m.expiry_date }}</td>
+        <td>{{ m.quantity }}</td>
+        <td>{{ m.priority }}</td>
+        <td>{{ m.donor_name }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>No medicines are expiring soon 🎉</p>
+{% endif %}
+
+<br>
+<a href="/admin/dashboard">⬅ Back to Dashboard</a>
+
+</body>
+</html>

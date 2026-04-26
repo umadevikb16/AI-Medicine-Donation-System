@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NGO Dashboard</title>
+    <style>
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', Tahoma, sans-serif;
+        background: linear-gradient(135deg, #f0f7ff, #e8f9f1);
+    }
+
+    /* NAVBAR */
+    .navbar {
+        background: linear-gradient(90deg, #2c7be5, #4f46e5);
+        color: white;
+        padding: 15px 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .logout-btn {
+        background: white;
+        color: #2c7be5;
+        padding: 8px 16px;
+        border-radius: 20px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    /* LAYOUT */
+    .container {
+        display: flex;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+        width: 230px;
+        background-color: #1f2937;
+        min-height: 100vh;
+        padding-top: 20px;
+    }
+
+    .sidebar a {
+        display: block;
+        padding: 14px 22px;
+        color: #d1d5db;
+        text-decoration: none;
+        font-size: 15px;
+    }
+
+    .sidebar a:hover {
+        background-color: #374151;
+        color: white;
+        border-left: 4px solid #4ade80;
+    }
+
+    /* MAIN */
+    .main {
+        flex: 1;
+        padding: 30px;
+    }
+
+    .dashboard-title {
+        font-size: 26px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    /* HERO */
+    .hero {
+        background: white;
+        border-radius: 16px;
+        padding: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+
+    .hero-text h3 {
+        margin: 0;
+        font-size: 22px;
+        color: #1f2937;
+    }
+
+    .hero-text p {
+        color: #555;
+        margin-top: 8px;
+    }
+
+    .hero img {
+        width: 220px;
+    }
+
+    /* CARDS */
+    .cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+    }
+
+    .card {
+        padding: 25px;
+        border-radius: 16px;
+        color: white;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        transition: transform 0.3s;
+    }
+
+    .card:hover {
+        transform: translateY(-6px);
+        cursor: pointer;
+    }
+
+    .card h3 {
+        margin: 0;
+        font-size: 16px;
+        opacity: 0.9;
+    }
+
+    .card p {
+        font-size: 34px;
+        font-weight: bold;
+        margin-top: 12px;
+    }
+
+    .blue { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+    .orange { background: linear-gradient(135deg, #fb923c, #f97316); }
+    .green { background: linear-gradient(135deg, #22c55e, #16a34a); }
+    .purple { background: linear-gradient(135deg, #a855f7, #7c3aed); }
+
+    /* IMPACT */
+    .impact-banner {
+        margin-top: 30px;
+        background: linear-gradient(90deg, #2c7be5, #22c55e);
+        color: white;
+        padding: 18px;
+        border-radius: 14px;
+        text-align: center;
+        font-size: 18px;
+    }
+    .impact-illustration {
+            margin-top: 50px;
+            padding: 50px 20px;
+            background: linear-gradient(135deg, #e0f2fe, #ecfdf5);
+            border-radius: 20px;
+        }
+
+        .illustration-content {
+            max-width: 1100px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .illustration-content img {
+            width: 320px;
+            max-width: 100%;
+        }
+
+        .illustration-text h2 {
+            font-size: 28px;
+            color: #1e3a8a;
+            margin-bottom: 12px;
+        }
+
+        .illustration-text p {
+            font-size: 16px;
+            color: #475569;
+            line-height: 1.6;
+        }
+
+</style>
+
+</head>
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <h2>NGO Dashboard</h2>
+    <a href="/logout" class="logout-btn">Logout</a>
+</div>
+
+<!-- CONTENT -->
+<div class="container">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <a href="/ngo/dashboard">Dashboard</a>
+        <a href="/ngo/medicines">View Available Medicines</a>
+        <a href="/ngo/medicines">Request Medicines</a>
+        <a href="/ngo/requests/status">My Request Status</a>
+        <a href="/ngo/received">Received Donations</a>
+        <a href="/ngo/impact">Impact Report</a>
+        <a href="/ngo/profile">Profile</a>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main">
+        <div class="dashboard-title">Overview</div>
+
+        <div class="hero">
+        <div class="hero-text">
+        <h3>Saving Medicines, Saving Lives 💊</h3>
+        <p>Your NGO helps redistribute unused medicines to people in need.</p>
+        </div>
+        <img src="https://cdn-icons-png.flaticon.com/512/2966/2966327.png">
+    </div>
+
+    <div class="cards">
+
+    <a href="/ngo/medicines" style="text-decoration:none;">
+        <div class="card blue">
+            <h3>Total Medicines Available</h3>
+            <p>{{ total_medicines }}</p>
+        </div>
+    </a>
+    <a href="/ngo/requests/status" style="text-decoration:none;">
+        <div class="card orange">
+            <h3>Total Requests Sent</h3>
+            <p>{{ total_requests }}</p>
+        </div>
+    </a>
+
+    <a href="/ngo/requests/approved" style="text-decoration:none;">
+        <div class="card green">
+            <h3>Approved Requests</h3>
+            <p>{{ approved_requests }}</p>
+        </div>
+    </a>
+
+    <a href="/ngo/received" style="text-decoration:none;">
+        <div class="card purple">
+            <h3>Medicines Distributed</h3>
+            <p>{{ medicines_distributed }}</p>
+        </div>
+    </a>
+
+    </div>
+        <div class="impact-banner">
+            🌱 Together, we reduce medicine waste and bring healthcare to those in need
+        </div>
+    </div>
+    <!-- NGO IMPACT ILLUSTRATION -->
+<div class="impact-illustration">
+
+    <div class="illustration-content">
+        <img 
+  src="{{ url_for('static', filename='images/ngo_impact.png') }}" 
+  alt="NGO Impact Illustration"
+  style="width:100%; max-width:420px; margin-top:20px;"
+>
+        <div class="illustration-text">
+            <h2>Together, We Save Lives 💙</h2>
+            <p>
+                Your NGO plays a vital role in redistributing medicines to those
+                who need them the most. Every request fulfilled creates real impact.
+            </p>
+        </div>
+    </div>
+
+</div>
+
+
+</div>
+
+</body>
+</html>

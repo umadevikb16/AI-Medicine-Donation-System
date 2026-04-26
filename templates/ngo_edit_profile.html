@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit NGO Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+        }
+
+        .container {
+            width: 450px;
+            margin: 60px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        button {
+            background: #16a34a;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .update-btn {
+            flex: 1;
+            background: #22c55e;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .cancel-btn {
+            flex: 1;
+            background: #e5e7eb;
+            color: #374151;
+            text-align: center;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 15px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cancel-btn:hover {
+            background: #d1d5db;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Edit NGO Profile</h2>
+
+   <form method="POST">
+
+    <input type="text" name="ngo_name" value="{{ ngo.get('ngo_name','') }}" required>
+
+    <input type="text" name="ngo_type" value="{{ ngo.get('ngo_type','') }}" required>
+
+    <input type="text" name="phone" value="{{ ngo.get('phone','') }}" required>
+
+    <input type="text" name="location" value="{{ ngo.get('location','') }}" required>
+
+    <div class="button-group">
+        <button type="submit" class="update-btn">Update Profile</button>
+        <a href="/ngo/profile" class="cancel-btn"onclick="return confirm('Discard changes?')">Cancel</a>
+    </div>
+
+</form>
+
+</div>
+
+</body>
+</html>

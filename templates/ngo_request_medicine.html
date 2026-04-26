@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Request Medicine</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+        }
+
+        .container {
+            width: 400px;
+            margin: 60px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input, select, textarea, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        button {
+            background: #2c7be5;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Request Medicine</h2>
+
+    <form method="post">
+        <input type="text" value="{{ medicine.medicine_name }}" disabled>
+
+        <input type="number" name="quantity" placeholder="Required Quantity" required>
+
+        <select name="purpose" required>
+            <option value="">Select Purpose</option>
+            <option value="Children">Children</option>
+            <option value="Emergency">Emergency</option>
+            <option value="Medical Camp">Medical Camp</option>
+        </select>
+
+        <select name="priority" required>
+            <option value="">Priority Level</option>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+        </select>
+
+        <button type="submit">Submit Request</button>
+    </form>
+</div>
+
+</body>
+</html>

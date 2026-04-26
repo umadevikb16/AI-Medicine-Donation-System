@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Medicine Donation System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+        }
+
+        .navbar {
+            background-color: #2c7be5;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            margin-left: 20px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .hero h1 {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            background-color: #2c7be5;
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            margin: 10px;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background-color: #1a5bb8;
+        }
+        .hero {
+            height: calc(100vh - 70px);
+            background: linear-gradient(
+                rgba(0, 0, 0, 0.55),
+                rgba(0, 0, 0, 0.55)
+            ),
+            url(https://images.deccanchronicle.com/dc-Cover-1o44o5o4m8nvbretleiu930h21-20180205012306.Medi.jpeg);
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-content {
+            text-align: center;
+            color: white;
+            max-width: 700px;
+        }
+
+        .hero-content h1 {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+
+        .hero-content p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            color: #e0e0e0;
+        }
+
+        .hero-buttons a {
+            display: inline-block;
+            padding: 14px 26px;
+            margin: 10px;
+            background-color: #2c7be5;
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .hero-buttons a.admin {
+            background-color: #28a745;
+        }
+        .hero-buttons a {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .hero-buttons a:hover {
+        transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            padding: 60px;
+            background: #ffffff;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .feature-card h3 {
+            margin-top: 10px;
+            color: #2c7be5;
+        }
+        .stats {
+            background: #2c7be5;
+            color: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .stats div h1 {
+            font-size: 40px;
+        }
+
+        footer {
+            background: #1f2933;
+            color: #ccc;
+            padding: 30px;
+            text-align: center;
+        }
+        /* 🔹 SCROLL ANIMATION */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 28px;
+            }
+
+            .hero-content p {
+                font-size: 16px;
+            }
+
+            .stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+
+    </style>
+
+
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <h2>💊 Medicine Donation System</h2>
+    <div class="nav-links">
+    {% if session.get("admin_logged_in") %}
+    <a href="/admin/home">Home</a>
+{% else %}
+    <a href="/">Home</a>
+{% endif %}
+
+
+    {% if session.get("admin_logged_in") %}
+        <!-- ADMIN -->
+        <a href="/history">History</a>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/logout">Logout</a>
+
+    {% elif session.get("user_role") == "donor" %}
+        <!-- DONOR -->
+        <a href="/upload">Donate</a>
+        <a href="/donor/dashboard">Dashboard</a>
+        <a href="/logout">Logout</a>
+
+    {% elif session.get("user_role") == "ngo" %}
+        <!-- NGO -->
+        <a href="/ngo/dashboard">Dashboard</a>
+        <a href="/logout">Logout</a>
+
+    {% else %}
+        <!-- PUBLIC -->
+        <a href="/login">Login</a>
+        <a href="/register/donor">Register</a>
+        <a href="/admin">Admin</a>
+    {% endif %}
+</div>
+
+
+    </div>
+
+    <!-- HERO SECTION -->
+    
+    <div class="hero">
+    <div class="hero-content">
+        <h1>Donate Unused Medicines.<br><span style="color:#22c55e;">Save Lives ❤️,Reduce Waste.</span> </h1>
+        <p>
+            A smart, AI-powered platform that connects donors with NGOs 
+            to ensure unused medicines reach people who need them most.
+        </p>
+        <div class="hero-buttons">
+            {% if session.get("admin_logged_in") %}
+            <a href="/dashboard">Admin Dashboard</a>
+            <a href="/logout" class="admin">Logout</a>
+
+            {% elif session.get("user_role") == "donor" %}
+                <a href="/upload">Donate Medicine</a>
+                <a href="/donor/dashboard">My Dashboard</a>
+                <a href="/logout" class="admin">Logout</a>
+
+            {% elif session.get("user_role") == "ngo" %}
+                <a href="/ngo/dashboard">NGO Dashboard</a>
+                <a href="/logout" class="admin">Logout</a>
+
+            {% else %}
+                <a href="/register/donor">Register as Donor</a>
+                <a href="/register/ngo" class="admin">Register as NGO</a>
+                <p style="
+            margin-top: 18px;
+            font-size: 16px;
+            color: #e0e0e0;
+        ">
+    Already registered?
+    <a href="/login" style="
+        color: #90caf9;
+        font-weight: bold;
+        text-decoration: underline;
+    ">
+        Login
+    </a>
+</p>
+
+    {% endif %}
+</div>
+    </div>
+</div>
+    
+
+<div class="features reveal">
+    <div class="feature-card">
+        <h2>📸 AI OCR</h2>
+        <h3>Automatic Expiry Detection</h3>
+        <p>Automatically detects expiry dates from uploaded
+            medicine images using AI.</p>
+    </div>
+
+    <div class="feature-card">
+        <h2>📊 Impact Score</h2>
+        <h3>Smart Prioritization</h3>
+        <p>Ranks donations based on expiry & quantity.</p>
+    </div>
+
+    <div class="feature-card">
+        <h2>🔁 Redistribution</h2>
+        <h3>NGO Optimization</h3>
+        <p>Helps NGOs receive medicines before expiry.</p>
+    </div>
+
+    <div class="feature-card">
+        <h2>🔐 Admin Panel</h2>
+        <h3>Secure Monitoring</h3>
+        <p>Dashboard with analytics & donation history.</p>
+    </div>
+</div>
+<div style="text-align:center; margin-top:60px;">
+    <h2 style="font-size:32px; color:#1f2933;">
+        Real Impact, Real Numbers
+    </h2>
+    <p style="color:#555; margin-top:10px;">
+        Our platform is already making a measurable difference.
+    </p>
+</div>
+
+<div class="stats reveal">
+    <div>
+        <h1>500+</h1>
+        <p>Medicines Donated</p>
+    </div>
+    <div>
+        <h1>120+</h1>
+        <p>NGOs Supported</p>
+    </div>
+    <div>
+        <h1>95%</h1>
+        <p>Wastage Reduced</p>
+    </div>
+</div>
+<footer>
+    <p>© 2026 AI Enabled Medicine Donation System</p>
+    <p>Developed for NGOs & Social Impact</p>
+</footer>
+
+</body>
+<script>
+    function revealOnScroll() {
+        const reveals = document.querySelectorAll(".reveal");
+
+        reveals.forEach(reveal => {
+            const windowHeight = window.innerHeight;
+            const elementTop = reveal.getBoundingClientRect().top;
+
+            if (elementTop < windowHeight - 100) {
+                reveal.classList.add("active");
+            }
+        });
+    }
+
+    window.addEventListener("scroll", revealOnScroll);
+    revealOnScroll();
+</script>
+
+</html>

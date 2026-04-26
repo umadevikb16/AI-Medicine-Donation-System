@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Panel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { margin:0; font-family: Arial; background:#f4f6f8; }
+        .navbar {
+            background:#2c7be5;
+            color:white;
+            padding:15px 25px;
+            display:flex;
+            justify-content:space-between;
+        }
+        .layout { display:flex; }
+        .sidebar {
+            width:220px;
+            background:#1f2937;
+            min-height:100vh;
+        }
+        .sidebar a {
+            display:block;
+            padding:12px 20px;
+            color:#d1d5db;
+            text-decoration:none;
+        }
+        .sidebar a:hover {
+            background:#374151;
+            color:white;
+        }
+        .content {
+            flex:1;
+            padding:30px;
+        }
+        .logout {
+            color:white;
+            text-decoration:none;
+            font-weight:bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <h3>🛠 Admin Dashboard</h3>
+    <a href="/logout" class="logout">Logout</a>
+</div>
+
+<div class="layout">
+    <div class="sidebar">
+        <a href="/admin/dashboard">Dashboard</a>
+        <a href="/admin/ngo/requests">NGO Requests</a>
+        <a href="/admin/stock-history">Stock History</a>
+    </div>
+
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+</div>
+
+</body>
+</html>
